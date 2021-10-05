@@ -1,0 +1,60 @@
+# docker run
+sudo docker run -d --name keycloak -p 9090:8080 -e KEYCLOAK_USER=admin -e KEYCLOAK_PASSWORD=admin -e DB_VENDOR=h2 -e JAVA_OPTS="-Djdk.tls.client.protocols=TLSv1.2 -Dkeycloak.profile.feature.upload_scripts=enabled -Dkeycloak.profile.feature.scripts=enabled" -v /home/panunited/data/keycloak:/opt/jboss/keycloak jboss/keycloak
+sudo docker run -d --name rabbitmq --hostname rabbitmq-panunited -p 8081:15672 -p 5672:5672 -v /home/panunited/data/rabbitmq:/var/lib/rabbitmq -e RABBITMQ_DEFAULT_USER=user -e RABBITMQ_DEFAULT_PASS=1 rabbitmq:3-management
+sudo docker run -d --rm --name gotenberg -p 3000:3000 gotenberg/gotenberg:7
+
+# deploy keycloak listener plugin
+scp -P 22 C:\Users\khoabui\workspace\projects\keycloak_listener\target\keycloak-listener.jar panunited@10.125.31.38:/home/panunited/data/keycloak/libs/keycloak-listener.jar
+sudo docker cp /home/panunited/data/keycloak/libs/keycloak-listener.jar 1be7bfd2293c:/opt/jboss/keycloak/standalone/deployments
+
+# docker compose file copy
+scp -P 22 C:\Users\khoabui\workspace\docker-compose-Linux-x86_64 panunited@10.125.31.38:/usr/local/bin/docker-compose
+scp -P 22 C:\Users\khoabui\workspace\projects\keycloak_listener\docker-compose.yml panunited@10.125.31.38:/home/panunited/workspace/env/docker-compose.yml
+
+# keycloak cluster
+scp -P 22 C:\Users\khoabui\workspace\keycloak-cluster.zip panunited@10.125.31.38:/home/panunited/workspace/
+scp -P 22 panunited@10.125.31.38:/home/panunited/workspace/keycloak-cluster.zip C:\Users\khoabui\workspace\
+
+scp -P 22 C:\Users\khoabui\workspace\keycloak-cluster\kc1\keycloak_1.yaml panunited@10.125.31.38:/home/panunited/workspace/keycloak-cluster/kc1/
+scp -P 22 C:\Users\khoabui\workspace\keycloak-cluster\kc2\keycloak_2.yaml panunited@10.125.31.38:/home/panunited/workspace/keycloak-cluster/kc2/
+scp -P 22 C:\Users\khoabui\workspace\keycloak-cluster\kc_lb\nginx.yaml panunited@10.125.31.38:/home/panunited/workspace/keycloak-cluster/kc_lb
+scp -P 22 C:\Users\khoabui\workspace\keycloak-cluster\kc_lb\nginx.conf panunited@10.125.31.38:/home/panunited/workspace/keycloak-cluster/kc_lb
+
+zip -r keycloak-cluster.zip ./keycloak-cluster/
+unzip keycloak-cluster.zip
+
+# log
+sudo docker logs -f --tail 20 kc1
+
+# firewall
+sudo firewall-cmd --zone=public --add-port=7600/tcp --permanent;
+sudo firewall-cmd --reload;
+
+
+
+
+
+scp -P 22 C:\Users\khoabui\workspace\projects\keycloak_listener\target\keycloak-listener.jar panunited@10.125.31.38:/home/panunited/data/keycloak/libs/keycloak-listener.jar
+
+sudo docker cp /home/panunited/data/keycloak/libs/keycloak-listener.jar 1be7bfd2293c:/opt/jboss/keycloak/standalone/deployments
+
+scp -P 22 C:\Users\khoabui\workspace\docker-compose-Linux-x86_64 panunited@10.125.31.38:/usr/local/bin/docker-compose
+scp -P 22 C:\Users\khoabui\workspace\projects\keycloak_listener\docker-compose.yml panunited@10.125.31.38:/home/panunited/workspace/env/docker-compose.yml
+scp -P 22 C:\Users\khoabui\Desktop\docker-compose.yml panunited@10.125.31.38:/home/panunited/workspace/env/docker-compose.yml
+
+sudo docker run -d -p 9090:8080 -e KEYCLOAK_USER=admin -e KEYCLOAK_PASSWORD=admin  -e DB_VENDOR=h2 -e JAVA_OPTS="-Dkeycloak.profile.feature.upload_scripts=enabled -Dkeycloak.profile.feature.scripts=enabled" jboss/keycloak
+
+
+sudo docker run -d -p 9999:8080 -e KEYCLOAK_USER=admin -e KEYCLOAK_PASSWORD=admin  -e DB_VENDOR=h2 -e JAVA_OPTS="-Dkeycloak.profile.feature.upload_scripts=enabled -Dkeycloak.profile.feature.scripts=enabled" --name keycloak -v /home/panunited/data/keycloak:/opt/jboss/keycloak jboss/keycloak
+
+sudo docker run -d -p 9999:8080 --name keycloak -v /home/panunited/data/keycloak:/opt/jboss/keycloak jboss/keycloak
+
+sudo docker run -d --hostname rabbitmq-panunited --name rabbitmq -p 8081:15672 -p 5672:5672 -v /home/panunited/data/rabbitmq:/var/lib/rabbitmq -e RABBITMQ_DEFAULT_USER=user -e RABBITMQ_DEFAULT_PASS=1 rabbitmq:3-management
+
+docker run -d --rm --name gotenberg -p 3000:3000 gotenberg/gotenberg:7
+
+sudo docker logs -f --tail 10 1b
+
+-- firewall
+sudo firewall-cmd --zone=public --add-port=5672/tcp --permanent;
+sudo firewall-cmd --reload;
