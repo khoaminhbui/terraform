@@ -18,6 +18,10 @@ resource "docker_container" "rabbitmq_container" {
     internal = local.management_port
     external = var.management_port
   }
+  ports {
+    internal = local.queue_port
+    external = var.queue_port
+  }
   volumes {
     host_path = var.config_host_path
     container_path = "/config/"

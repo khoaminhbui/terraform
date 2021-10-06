@@ -4,6 +4,7 @@ locals {
   config_file = "/config/rabbitmq"
   erlang_cookie = "WIWVHCDTCIUAWANLMQAW"
   management_port = 15672
+  queue_port = 5672
 }
 
 variable "name" {
@@ -21,6 +22,11 @@ variable "network" {
 }
 
 variable "management_port" {
+  description = "External management port"
+  type = string
+}
+
+variable "queue_port" {
   description = "External management port"
   type = string
 }

@@ -22,6 +22,7 @@ module "rabbit_node_1" {
   image = docker_image.rabbitmq_image.latest
   network = local.docker_network
   management_port = 8081
+  queue_port = 5671
   config_host_path = "${path.cwd}/config/rabbit-1"
 }
 
@@ -31,6 +32,7 @@ module "rabbit_node_2" {
   image = docker_image.rabbitmq_image.latest
   network = local.docker_network
   management_port = 8082
+  queue_port = 5672
   config_host_path = "${path.cwd}/config/rabbit-2"
 }
 
@@ -40,5 +42,6 @@ module "rabbit_node_3" {
   image = docker_image.rabbitmq_image.latest
   network = local.docker_network
   management_port = 8083
+  queue_port = 5673
   config_host_path = "${path.cwd}/config/rabbit-3"
 }
