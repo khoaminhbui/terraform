@@ -9,17 +9,17 @@ terraform {
 
 provider "rabbitmq" {
   endpoint = "${var.rabbit_host}:${var.rabbit_port}"
-  username = local.rabbitmq_user
-  password = local.rabbitmq_password
+  username = var.rabbit_user
+  password = var.rabbit_password
 }
 
 # Create a virtual host & permissions
 resource "rabbitmq_vhost" "my_vhost" {
-  name = local.rabbitmq_vhost
+  name = local.rabbit_vhost
 }
 
 resource "rabbitmq_permissions" "my_permissions" {
-  user  = local.rabbitmq_user
+  user  = var.rabbit_user
   vhost = rabbitmq_vhost.my_vhost.name
 
   permissions {
@@ -31,7 +31,7 @@ resource "rabbitmq_permissions" "my_permissions" {
 
 # Create the queue
 resource "rabbitmq_queue" "my_queue" {
-  name  = local.rabbitmq_queue
+  name  = var.rabbit_queue
   vhost = rabbitmq_vhost.my_vhost.name
 
   settings {

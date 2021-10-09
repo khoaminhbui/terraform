@@ -48,8 +48,3 @@ module "rabbit_node_3" {
   config_host_path = "${path.cwd}/config/rabbit-3"
 }
 
-# Create queue
-module "keycloak_queue" {
-  source = "./modules/rabbit-queue"
-  rabbit_port = module.rabbit_node_1.management_port
-}
