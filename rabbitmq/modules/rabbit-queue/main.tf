@@ -8,7 +8,7 @@ terraform {
 }
 
 provider "rabbitmq" {
-  endpoint = "http://127.0.0.1:8081"
+  endpoint = "${var.rabbit_host}:${var.rabbit_port}"
   username = local.rabbitmq_user
   password = local.rabbitmq_password
 }
@@ -20,7 +20,7 @@ resource "rabbitmq_vhost" "my_vhost" {
 
 resource "rabbitmq_permissions" "my_permissions" {
   user  = local.rabbitmq_user
-  vhost = local.rabbitmq_vhost
+  vhost = rabbitmq_vhost.my_vhost.name
 
   permissions {
     configure = ".*"
@@ -32,7 +32,7 @@ resource "rabbitmq_permissions" "my_permissions" {
 # Create the queue
 resource "rabbitmq_queue" "my_queue" {
   name  = local.rabbitmq_queue
-  vhost = local.rabbitmq_vhost
+  vhost = rabbitmq_vhost.my_vhost.name
 
   settings {
     durable     = false

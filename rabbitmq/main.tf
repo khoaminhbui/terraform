@@ -51,4 +51,5 @@ module "rabbit_node_3" {
 # Create queue
 module "keycloak_queue" {
   source = "./modules/rabbit-queue"
+  rabbit_port = module.rabbit_node_1.management_port
 }
