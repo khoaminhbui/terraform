@@ -13,7 +13,9 @@ resource "docker_container" "rabbitmq_container" {
   hostname = var.name
   image = var.image
   env = ["RABBITMQ_DEFAULT_USER=${local.user}", "RABBITMQ_DEFAULT_PASS=${local.password}", "RABBITMQ_CONFIG_FILE=${local.config_file}", "RABBITMQ_ERLANG_COOKIE=${local.erlang_cookie}"]
-  networks = [var.network ]
+  networks_advanced {
+    name = var.network
+  }
   ports {
     internal = local.management_port
     external = var.management_port
