@@ -1,9 +1,16 @@
 locals {
-  rabbit_vhost = "panu"
+  rabbit_vhost = "zamo"
 }
 
 variable "rabbit_queue" {
   description = "Queue to create"
+}
+
+variable "rabbit_exchange" {
+}
+
+variable "rabbit_routing_key" {
+  
 }
 
 variable "rabbit_host" {

@@ -35,7 +35,28 @@ resource "rabbitmq_queue" "my_queue" {
   vhost = rabbitmq_vhost.my_vhost.name
 
   settings {
-    durable     = false
-    auto_delete = true
+    durable     = true
+    auto_delete = false
   }
+}
+
+# Create the exchange
+resource "rabbitmq_exchange" "my_exchange" {
+  name  = var.rabbit_exchange
+  vhost = rabbitmq_vhost.my_vhost.name
+
+  settings {
+    type        = "direct"
+    durable     = true
+    auto_delete = false
+  }
+}
+
+# Create the binding
+resource "rabbitmq_binding" "my_binding" {
+  source           = rabbitmq_exchange.my_exchange.name
+  vhost            = rabbitmq_vhost.my_vhost.name
+  destination      = rabbitmq_queue.my_queue.name
+  destination_type = "queue"
+  routing_key      = var.rabbit_routing_key
 }
